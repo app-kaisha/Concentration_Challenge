@@ -13,6 +13,10 @@ struct Conentration_ChallengeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            // TODO: only for debug of launch screen - need to remove
+                .onAppear {
+                    Thread.sleep(forTimeInterval: 3.0)
+                }
         }
     }
 }
