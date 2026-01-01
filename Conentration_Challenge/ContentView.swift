@@ -18,6 +18,7 @@ struct ContentView: View {
     
     @State private var matchFound = false
     @State private var allDisabled = false
+    @State private var gameOver = false
     
     let tileBack = "⚪️"
     
@@ -79,16 +80,34 @@ struct ContentView: View {
             
             Spacer()
             
-            if allDisabled {
+            if gameOver {
+                Button("Play Again?") {
+                    allDisabled = false
+                    guesses = []
+                    gameMessage = ""
+                    emojiShowing = Array(repeating: false, count: 4)
+                    totalGuesses = 0
+                    matchFound = false
+                    gameOver = false
+                    tiles.shuffle()
+                    print(tiles.joined(separator: ", "))
+                    
+                }
+                .font(.title)
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+                .clipShape(Capsule())
+            } else if allDisabled {
                 Button("Another Try?") {
-                    // TODO: function to reset game
-                    allDisabled.toggle()
+                    
                     if !matchFound {
                         emojiShowing[guesses[0]] = false
                         emojiShowing[guesses[1]] = false
                     }
+                    allDisabled = false
                     guesses = []
                     gameMessage = ""
+                    matchFound = false
                     
                 }
                 .font(.title)
@@ -116,10 +135,6 @@ struct ContentView: View {
             emojiShowing[index] = true
             totalGuesses += 1
             guesses.append(index)
-            
-//            print("guesses: \(guesses)")
-//            print("emojisShowing: \(emojiShowing)")
-            
             // Check if this is second guess
             if guesses.count > 1 {
                 // Disable all tiles/buttons
@@ -134,6 +149,11 @@ struct ContentView: View {
         if tiles[guesses[0]] == tiles[guesses[1]] {
             gameMessage = "✅ You Found a Match!"
             matchFound = true
+            if !emojiShowing.contains(false) {
+                // All cards shown
+                gameOver = true
+                gameMessage = "You Guessed Them All!"
+            }
             
         } else {
             gameMessage = "❌ Not a Match. Try Again."
