@@ -13,8 +13,8 @@ struct ContentView: View {
     
     @State private var totalGuesses = 0
     @State private var gameMessage = ""
-    @State private var tiles = ["🚀","🍕"]
-    @State private var emojiShowing = Array(repeating: false, count: 4)
+    @State private var tiles = ["🚀","🍕","🦅","🦄","🌮","🐢","🦋","🌶️"]
+    @State private var emojiShowing = Array(repeating: false, count: 16)
     @State private var guesses: [Int] = []
     
     @State private var matchFound = false
@@ -25,9 +25,6 @@ struct ContentView: View {
     
     let tileBack = "⚪️"
     
-//    private let emoji: [String] = ["🚀","🍕","🦅","🦄","🌮","🐢","🦋","🌶️"]
-//    private var emojiArray: [[String]] = [["🚀","🍕","🦅","🦄"], ["🌮","🐢","🦋","🌶️"], ["🚀","🍕","🦅","🦄"], ["🌮","🐢","🦋","🌶️"]]
-    
     var body: some View {
         VStack {
             Text("Total Guesses: \(totalGuesses)")
@@ -36,44 +33,70 @@ struct ContentView: View {
             
             Spacer()
             
-            HStack {
-                Button(emojiShowing[0] == false ? tileBack : tiles[0]) {
-                    buttonTapped(index: 0)
-                    
+            VStack {
+                HStack {
+                    Button(emojiShowing[0] == false ? tileBack : tiles[0]) {
+                        buttonTapped(index: 0)
+                    }
+                    Button(emojiShowing[1] == false ? tileBack : tiles[1]) {
+                        buttonTapped(index: 1)
+                    }
+                    Button(emojiShowing[2] == false ? tileBack : tiles[2]) {
+                        buttonTapped(index: 2)
+                    }
+                    Button(emojiShowing[3] == false ? tileBack : tiles[3]) {
+                        buttonTapped(index: 3)
+                    }
                 }
-                .font(.largeTitle)
-                .buttonStyle(.borderedProminent)
-                .tint(.white)
-                .controlSize(.large)
-                .disabled(allDisabled)
-                
-                Button(emojiShowing[1] == false ? tileBack : tiles[1]) {
-                    buttonTapped(index: 1)
+                HStack {
+                    Button(emojiShowing[4] == false ? tileBack : tiles[4]) {
+                        buttonTapped(index: 4)
+                    }
+                    Button(emojiShowing[5] == false ? tileBack : tiles[5]) {
+                        buttonTapped(index: 5)
+                    }
+                    Button(emojiShowing[6] == false ? tileBack : tiles[6]) {
+                        buttonTapped(index: 6)
+                    }
+                    Button(emojiShowing[7] == false ? tileBack : tiles[7]) {
+                        buttonTapped(index: 7)
+                    }
                 }
-                .font(.largeTitle)
-                .buttonStyle(.borderedProminent)
-                .tint(.white)
-                .controlSize(.large)
-                .disabled(allDisabled)
-                
-                Button(emojiShowing[2] == false ? tileBack : tiles[2]) {
-                    buttonTapped(index: 2)
+                HStack {
+                    Button(emojiShowing[8] == false ? tileBack : tiles[8]) {
+                        buttonTapped(index: 8)
+                    }
+                    Button(emojiShowing[9] == false ? tileBack : tiles[9]) {
+                        buttonTapped(index: 9)
+                    }
+                    Button(emojiShowing[10] == false ? tileBack : tiles[10]) {
+                        buttonTapped(index: 10)
+                    }
+                    Button(emojiShowing[11] == false ? tileBack : tiles[11]) {
+                        buttonTapped(index: 11)
+                    }
                 }
-                .font(.largeTitle)
-                .buttonStyle(.borderedProminent)
-                .tint(.white)
-                .controlSize(.large)
-                .disabled(allDisabled)
-                
-                Button(emojiShowing[3] == false ? tileBack : tiles[3]) {
-                    buttonTapped(index: 3)
+                HStack {
+                    Button(emojiShowing[12] == false ? tileBack : tiles[12]) {
+                        buttonTapped(index: 12)
+                    }
+                    Button(emojiShowing[13] == false ? tileBack : tiles[13]) {
+                        buttonTapped(index: 13)
+                    }
+                    Button(emojiShowing[14] == false ? tileBack : tiles[14]) {
+                        buttonTapped(index: 14)
+                    }
+                    Button(emojiShowing[15] == false ? tileBack : tiles[15]) {
+                        buttonTapped(index: 15)
+                    }
                 }
-                .font(.largeTitle)
-                .buttonStyle(.borderedProminent)
-                .tint(.white)
-                .controlSize(.large)
-                .disabled(allDisabled)
             }
+            .font(.largeTitle)
+            .buttonStyle(.borderedProminent)
+            .tint(.white)
+            .controlSize(.large)
+            .disabled(allDisabled)
+            
             
             Text(gameMessage)
                 .font(.largeTitle)
@@ -88,7 +111,7 @@ struct ContentView: View {
                         allDisabled = false
                         guesses = []
                         gameMessage = ""
-                        emojiShowing = Array(repeating: false, count: 4)
+                        emojiShowing = Array(repeating: false, count: 16)
                         totalGuesses = 0
                         matchFound = false
                         gameOver = false
@@ -172,7 +195,7 @@ struct ContentView: View {
     }
     
     func playSound(soundName: String) {
-
+        
         if audioPlayer != nil && audioPlayer.isPlaying {
             audioPlayer.stop()
         }
@@ -187,7 +210,7 @@ struct ContentView: View {
         } catch {
             print("😡 ERROR: \(error.localizedDescription) creating audioPlayer.")
         }
-
+        
     }
     
     
