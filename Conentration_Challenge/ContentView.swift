@@ -11,10 +11,13 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var totalGuesses = 0
-    @State private var gameMessage = "You Guessed Them All!"
+    @State private var gameMessage = ""
     @State private var tiles = ["🚀","🍕"]
     @State private var emojiShowing = Array(repeating: false, count: 4)
     @State private var guesses: [Int] = []
+    
+    @State private var matchFound = false
+    @State private var allDisabled = false
     
     let tileBack = "⚪️"
     
@@ -38,6 +41,7 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
+                .disabled(allDisabled)
                 
                 Button(emojiShowing[1] == false ? tileBack : tiles[1]) {
                     buttonTapped(index: 1)
@@ -46,7 +50,7 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
-                
+                .disabled(allDisabled)
                 
                 Button(emojiShowing[2] == false ? tileBack : tiles[2]) {
                     buttonTapped(index: 2)
@@ -55,7 +59,7 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
-                
+                .disabled(allDisabled)
                 
                 Button(emojiShowing[3] == false ? tileBack : tiles[3]) {
                     buttonTapped(index: 3)
@@ -64,6 +68,7 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
+                .disabled(allDisabled)
             }
             
             Text(gameMessage)
@@ -74,13 +79,24 @@ struct ContentView: View {
             
             Spacer()
             
-            Button("Another Try?") {
-                // TODO: function to reset game
-                
+            if allDisabled {
+                Button("Another Try?") {
+                    // TODO: function to reset game
+                    allDisabled.toggle()
+                    if !matchFound {
+                        emojiShowing[guesses[0]] = false
+                        emojiShowing[guesses[1]] = false
+                    }
+                    guesses = []
+                    gameMessage = ""
+                    
+                }
+                .font(.title)
+                .buttonStyle(.borderedProminent)
+                .tint(matchFound ? .mint : .red)
+                .clipShape(Capsule())
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.red)
-            .clipShape(Capsule())
+            // TODO: Winner 'You Guessed Them All!'
             
             
             
@@ -106,6 +122,9 @@ struct ContentView: View {
             
             // Check if this is second guess
             if guesses.count > 1 {
+                // Disable all tiles/buttons
+                allDisabled = true
+                // Show another try button
                 checkForMatch()
             }
         }
@@ -113,8 +132,8 @@ struct ContentView: View {
     
     func checkForMatch() {
         if tiles[guesses[0]] == tiles[guesses[1]] {
-            print("Foud a Match!")
             gameMessage = "✅ You Found a Match!"
+            matchFound = true
             
         } else {
             gameMessage = "❌ Not a Match. Try Again."
