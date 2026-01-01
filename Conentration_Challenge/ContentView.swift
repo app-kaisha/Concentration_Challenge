@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var gameMessage = "You Guessed Them All!"
     @State private var tiles = ["🚀","🍕"]
     @State private var emojiShowing = Array(repeating: false, count: 4)
+    @State private var guesses: [Int] = []
     
     let tileBack = "⚪️"
     
@@ -88,7 +89,7 @@ struct ContentView: View {
         .onAppear {
             tiles = tiles + tiles
             tiles.shuffle()
-//            print(tiles.joined(separator: ", "))
+            print(tiles.joined(separator: ", "))
             
         }
     }
@@ -98,6 +99,9 @@ struct ContentView: View {
         if !emojiShowing[index] {
             emojiShowing[index] = true
             totalGuesses += 1
+            guesses.append(index)
+            print("guesses: \(guesses)")
+            print("emojisShowing: \(emojiShowing)")
         }
     }
     
