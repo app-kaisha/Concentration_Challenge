@@ -100,8 +100,24 @@ struct ContentView: View {
             emojiShowing[index] = true
             totalGuesses += 1
             guesses.append(index)
-            print("guesses: \(guesses)")
-            print("emojisShowing: \(emojiShowing)")
+            
+//            print("guesses: \(guesses)")
+//            print("emojisShowing: \(emojiShowing)")
+            
+            // Check if this is second guess
+            if guesses.count > 1 {
+                checkForMatch()
+            }
+        }
+    }
+    
+    func checkForMatch() {
+        if tiles[guesses[0]] == tiles[guesses[1]] {
+            print("Foud a Match!")
+            gameMessage = "✅ You Found a Match!"
+            
+        } else {
+            gameMessage = "❌ Not a Match. Try Again."
         }
     }
     
