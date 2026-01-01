@@ -13,12 +13,12 @@ struct ContentView: View {
     @State private var totalGuesses = 0
     @State private var gameMessage = "You Guessed Them All!"
     @State private var tiles = ["🚀","🍕"]
+    @State private var emojiShowing = Array(repeating: false, count: 4)
     
     let tileBack = "⚪️"
     
-    private let emoji: [String] = ["🚀","🍕","🦅","🦄","🌮","🐢","🦋","🌶️"]
-    private var emojiArray: [[String]] = [["🚀","🍕","🦅","🦄"], ["🌮","🐢","🦋","🌶️"], ["🚀","🍕","🦅","🦄"], ["🌮","🐢","🦋","🌶️"]]
-    @State private var showFirst = false
+//    private let emoji: [String] = ["🚀","🍕","🦅","🦄","🌮","🐢","🦋","🌶️"]
+//    private var emojiArray: [[String]] = [["🚀","🍕","🦅","🦄"], ["🌮","🐢","🦋","🌶️"], ["🚀","🍕","🦅","🦄"], ["🌮","🐢","🦋","🌶️"]]
     
     var body: some View {
         VStack {
@@ -29,32 +29,35 @@ struct ContentView: View {
             Spacer()
             
             HStack {
-                Button(tileBack) {
-                    //TODO: Action
+                Button(emojiShowing[0] == false ? tileBack : tiles[0]) {
+                    buttonTapped(index: 0)
+                    
                 }
                 .font(.largeTitle)
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
                 
-                Button(tileBack) {
-                    //TODO: Action
+                Button(emojiShowing[1] == false ? tileBack : tiles[1]) {
+                    buttonTapped(index: 1)
                 }
                 .font(.largeTitle)
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
                 
-                Button(tileBack) {
-                    //TODO: Action
+                
+                Button(emojiShowing[2] == false ? tileBack : tiles[2]) {
+                    buttonTapped(index: 2)
                 }
                 .font(.largeTitle)
                 .buttonStyle(.borderedProminent)
                 .tint(.white)
                 .controlSize(.large)
                 
-                Button(tileBack) {
-                    //TODO: Action
+                
+                Button(emojiShowing[3] == false ? tileBack : tiles[3]) {
+                    buttonTapped(index: 3)
                 }
                 .font(.largeTitle)
                 .buttonStyle(.borderedProminent)
@@ -85,68 +88,17 @@ struct ContentView: View {
         .onAppear {
             tiles = tiles + tiles
             tiles.shuffle()
-            print(tiles.joined(separator: ", "))
+//            print(tiles.joined(separator: ", "))
             
         }
     }
     
-    func updateGame() {
-        
-    }
     
-    func setupGame() {
-        
-    }
-    
-    
-    func displayGuessMessage() {
-        
-        
-    }
-    
-    @ViewBuilder
-    func createGrid() -> some View {
-        VStack {
-            buildRow(row: 0)
-            buildRow(row: 1)
-            buildRow(row: 2)
-            buildRow(row: 3)
+    func buttonTapped(index: Int) {
+        if !emojiShowing[index] {
+            emojiShowing[index] = true
+            totalGuesses += 1
         }
-    }
-    
-    @ViewBuilder
-    func buildRow(row: Int) -> some View {
-        HStack(spacing: 10.0) {
-            getTile(row: row, column: 0)
-            getTile(row: row, column: 1)
-            getTile(row: row, column: 2)
-            getTile(row: row, column: 3)
-        }
-        .font(.largeTitle)
-        .frame(maxWidth: .infinity)
-    }
-    
-    @ViewBuilder
-    func getTile(row: Int, column: Int) -> some View {
-        ZStack {
-//            Circle()
-//                .foregroundStyle(.gray.gradient.opacity(0.2))
-            
-            Button {
-                // TODO: Add Action
-                print("Tapped: row: x:\(row) col: y:\(column)")
-            } label: {
-                ZStack {
-                    Circle()
-                        .inset(by: 20)
-                        .foregroundStyle(LinearGradient(colors: [.white, .gray.opacity(0.6)], startPoint: .top, endPoint: .bottom))
-                    
-                    Text("\(emojiArray[row][column])")//🚀
-                }
-                
-            }
-        }
-        .frame(width: 80, height: 80)
     }
     
 }
